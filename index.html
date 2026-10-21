@@ -8,12 +8,14 @@
 </head>
 <body>
     <main class="weather-card">
-        <h1>Vremea Acum 🌤️</h1>
-        
-        <!-- Formular de căutare oraș -->
-        <form id="weather-form">
-            <input type="text" id="city-input" placeholder="Introdu orașul (ex: București)" required>
-            <button type="submit">Caută</button>
+        <h1>Vremea Acum 🌤️</h1> 
+            <!-- Formular de căutare oraș și buton GPS -->
+<!-- Formular de căutare oraș și buton GPS -->
+<form id="weather-form">
+    <input type="text" id="city-input" placeholder="Introdu orașul (ex: București)">
+    <button type="submit">Caută</button>
+    <button type="button" id="geo-btn" title="Folosește locația curentă">📍</button>
+</form>
         </form>
 
         <!-- Containerul unde se afișează vremea -->

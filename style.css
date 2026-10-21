@@ -6,21 +6,35 @@
 
 body {
     font-family: 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #74ebe5 0%, #899fd4 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    
+    /* Setări pentru imaginea de fundal pe tot ecranul */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Imagine implicită (soare) + strat umbrit pentru lizibilitate */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), 
+                      url('https://images.unsplash.com/photo-1601297183305-6df142704ea2?auto=format&fit=crop&w=1920&q=80');
+    
+    transition: background-image 1s ease-in-out; /* Schimbare lină între poze */
 }
 
+/* Card dinamic cu efect de sticlă mată (Glassmorphism) */
 .weather-card {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
     width: 100%;
-    max-width: 400px;
+    max-width: 550px;
     text-align: center;
 }
 
@@ -123,4 +137,13 @@ button:hover {
 .loading {
     color: #7f8c8d;
     font-style: italic;
+}
+/* Stil pentru butonul de geolocație */
+#geo-btn {
+    background-color: #28a745;
+    padding: 12px 15px;
+}
+
+#geo-btn:hover {
+    background-color: #218838;
 }
