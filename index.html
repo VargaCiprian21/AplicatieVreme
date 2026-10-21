@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicație Meteo - Open-Meteo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="weather-card">
+        <h1>Vremea Acum 🌤️</h1>
+        
+        <!-- Formular de căutare oraș -->
+        <form id="weather-form">
+            <input type="text" id="city-input" placeholder="Introdu orașul (ex: București)" required>
+            <button type="submit">Caută</button>
+        </form>
+
+        <!-- Containerul unde se afișează vremea -->
+        <div id="weather-result" class="result-container hidden"></div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
