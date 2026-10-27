@@ -1,4 +1,5 @@
 // --- ELEMENE DOM & STARE GLOBALĂ ---
+
 const form = document.getElementById('weather-form');
 const cityInput = document.getElementById('city-input');
 const resultDiv = document.getElementById('weather-result');
@@ -53,7 +54,8 @@ async function loadHomeDashboard() {
     }
 }
 
-// Action Logou Home
+// Button de home 
+
 document.getElementById('logo-home').addEventListener('click', () => {
     resultDiv.classList.add('hidden');
     homeDashboard.classList.remove('hidden');
@@ -61,7 +63,7 @@ document.getElementById('logo-home').addEventListener('click', () => {
     loadHomeDashboard();
 });
 
-// --- CODE WMO & IMAGINI ---
+// Imagini si emoji uri
 function getWeatherDescription(code) {
     const weatherCodes = {
         0: { desc: 'Senin', emoji: '☀️' }, 1: { desc: 'Predominant senin', emoji: '🌤️' },
@@ -91,7 +93,8 @@ function updateBackgroundImage(code) {
     document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${imageUrl}')`;
 }
 
-// --- AFISARE VREME ---
+//  AFISARE VREME 
+
 async function fetchWeatherByCoords(latitude, longitude, locationName) {
     lastLocation = { latitude, longitude, locationName };
     homeDashboard.classList.add('hidden'); // Ascundem metropolele la afișarea rezultatului
@@ -172,7 +175,7 @@ async function fetchWeatherByCoords(latitude, longitude, locationName) {
             </div>
         `;
 
-        // Activăm funcționalitatea butonului de adăugare/ștergere rapidă din favorite
+        // Activăm  butonul de adăugare/ștergere rapidă din favorite
         const quickFavBtn = document.getElementById('quick-add-fav');
         quickFavBtn.addEventListener('click', () => {
             if (!favoriteCities.includes(locationName)) {
@@ -195,7 +198,7 @@ async function fetchWeatherByCoords(latitude, longitude, locationName) {
     }
 }
 
-// --- EVENIMENTE CAUTARE & GEOLOCATIE ---
+// Cautare si geolocatie
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const city = cityInput.value.trim();
@@ -227,7 +230,7 @@ geoBtn.addEventListener('click', () => {
     );
 });
 
-// --- AUTOCOMPLETE ---
+//  AUTOCOMPLETE 
 cityInput.addEventListener('input', (e) => {
     clearTimeout(timeoutId);
     const query = e.target.value.trim();
@@ -270,7 +273,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// --- FAVORITE & COMUTATOR UNITĂȚI ---
+// Favorite si schimbare sistem de unitati 
 unitToggleBtn.addEventListener('click', () => {
     useMetric = !useMetric;
     unitToggleBtn.textContent = useMetric ? '°C' : '°F';
@@ -348,7 +351,7 @@ favForm.addEventListener('submit', (e) => {
     favInput.value = ''; 
 });
 
-// --- INIȚIALIZARE ---
+// Initiaizare la incarcarea paginii
 window.addEventListener('DOMContentLoaded', () => {
     loadHomeDashboard();
     renderFavorites();
