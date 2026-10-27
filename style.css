@@ -1,149 +1,425 @@
-* {
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+}
+*{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, sans-serif;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    
-    /* Setări pentru imaginea de fundal pe tot ecranul */
+    flex-direction: column;
+    background-color: #f4f6f8; /* Fundal curat, deschis pentru dashboard */
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    
-    /* Imagine implicită (soare) + strat umbrit pentru lizibilitate */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), 
+    background-attachment: fixed;
+    /* Păstrăm opțional imaginea de fundal, dar mai estompată pentru lizibilitate pe ecran mare */
+    background-image: linear-gradient(rgba(244, 246, 248, 0.85), rgba(244, 246, 248, 0.85)), 
                       url('https://images.unsplash.com/photo-1601297183305-6df142704ea2?auto=format&fit=crop&w=1920&q=80');
-    
-    transition: background-image 1s ease-in-out; /* Schimbare lină între poze */
-}
-
-/* Card dinamic cu efect de sticlă mată (Glassmorphism) */
-.weather-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    padding: 3rem;
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    max-width: 550px;
-    text-align: center;
-}
-
-h1 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-}
-
-form {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 1.5rem;
-}
-
-@media (max-width: 380px) {
-    form {
-        flex-direction: column;
-    }
-}
-
-input {
-    flex: 1;
-    padding: 12px 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
-input:focus {
-    border-color: #4a90e2;
-}
-
-button {
-    padding: 12px 20px;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #357abd;
-}
-
-.result-container {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #eee;
+    transition: background-image 1s ease-in-out;
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
-.city-name {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 0.5rem;
+/* =========================================
+   2. BARA SUPERIOARĂ (NAVBAR)
+========================================= */
+.top-navbar {
+    background-color: #1e272e; /* Culoare închisă tip AccuWeather */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.weather-desc {
+.nav-logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin: 0;
+}
+
+.nav-logo span {
+    color: #ff9f43;
+}
+
+/* Formularul de căutare din Navbar */
+/* Formularul de căutare din Navbar (Corectat) */
+.nav-search-form {
+    display: flex;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 3px; /* Padding mai mic pentru un aspect mai fin */
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden; /* Taie marginile albe ascuțite ale inputului */
+}
+
+.nav-search-form input {
+    flex: 1;
+    background: transparent !important; /* Forțează fundalul să fie invizibil */
+    border: none;
+    padding: 8px 20px;
+    color: white; /* Textul va fi alb pe fundalul închis al barei */
+    font-size: 1rem;
+    outline: none;
+}
+
+/* Previne colorarea fundalului la auto-completarea din Chrome */
+.nav-search-form input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #1e272e inset !important;
+    -webkit-text-fill-color: white !important;
+}
+
+
+.nav-search-form input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.nav-search-btn {
+    background: #ff9f43;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.nav-search-btn:hover {
+    background: #f368e0;
+}
+
+/* Butoanele din dreapta */
+.nav-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    color: white;
     font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.temp {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #2c3e50;
-    margin: 10px 0;
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
 }
 
-.details {
+/* Responsive Navbar */
+@media (max-width: 768px) {
+    .top-navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+    .nav-search-form {
+        max-width: 100%;
+    }
+}
+
+/* =========================================
+   3. CONTAINER PRINCIPAL (DASHBOARD)
+========================================= */
+.dashboard-container {
+    flex: 1;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* =========================================
+   4. REZULTATE VREME (STIL CARD MARE)
+========================================= */
+/* =========================================
+   4. REZULTATE VREME (STIL CARD MARE)
+========================================= */
+.result-container {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    animation: fadeIn 0.5s ease-out;
+    text-align: center;
+    
+    /* Adaugă aceste 3 rânduri pentru a micșora lățimea: */
+    max-width: 800px; 
+    margin: 0 auto;
+    width: 100%;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.city-name { font-size: 2.5rem; color: #1e272e; font-weight: 700; margin-bottom: 5px; }
+.weather-desc {
+    display: inline-block;
+    background: #f4f6f8;
+    padding: 8px 20px;
+    border-radius: 30px;
+    color: #485460;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+.temp { font-size: 6rem; font-weight: 300; color: #1e272e; line-height: 1; margin: 20px 0; }
+
+.details, .astro-details {
     display: flex;
     justify-content: space-around;
-    margin-top: 15px;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+    padding: 20px;
     background: #f8f9fa;
-    padding: 12px;
-    border-radius: 8px;
+    border-radius: 16px;
+    border: 1px solid #e9ecef;
 }
 
-.detail-item {
-    font-size: 0.95rem;
-    color: #555;
+.detail-item, .astro-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 1.1rem;
+    color: #2c3e50;
+    font-weight: 600;
 }
 
-.error {
-    color: #e74c3c;
-    font-weight: bold;
-}
-
-.loading {
+.detail-item strong, .astro-item strong {
+    font-size: 0.85rem;
     color: #7f8c8d;
-    font-style: italic;
-}
-/* Stil pentru butonul de geolocație */
-#geo-btn {
-    background-color: #28a745;
-    padding: 12px 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-#geo-btn:hover {
-    background-color: #218838;
+/* =========================================
+   5. PROGNOZĂ 5 ZILE
+========================================= */
+.forecast-container {
+    margin-top: 40px;
+    text-align: left;
 }
+
+.forecast-title {
+    font-size: 1.4rem;
+    color: #1e272e;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.forecast-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.forecast-card {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.forecast-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.forecast-day { font-weight: 700; color: #1e272e; }
+.forecast-date { font-size: 0.85rem; color: #7f8c8d; }
+.forecast-emoji { font-size: 2.2rem; }
+.forecast-temp { font-weight: 600; color: #2c3e50; }
+
+/* =========================================
+   6. SECȚIUNEA FAVORITE
+========================================= */
+.favorites-section {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.favorites-section h3 {
+    color: #1e272e;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+#fav-form { display: flex; gap: 15px; margin-bottom: 30px; max-width: 600px; }
+#fav-form input {
+    flex: 1;
+    padding: 12px 20px;
+    border: 1px solid #ced4da;
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+}
+#fav-form input:focus { border-color: #ff9f43; }
+
+#fav-form button {
+    background: #1e272e;
+    color: white;
+    border-radius: 12px;
+    border: none;
+    padding: 0 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+#fav-form button:hover { background: #ff9f43; }
+
+.favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.fav-card {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.fav-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+.fav-title { font-weight: 700; color: #1e272e; font-size: 1.1rem; }
+.fav-temp { font-size: 1.8rem; font-weight: 300; color: #ff9f43; margin-top: 10px; }
+
+.remove-fav {
+    position: absolute;
+    top: -8px; right: -8px;
+    background: #ff4757; color: white;
+    border: none; border-radius: 50%;
+    width: 28px; height: 28px;
+    cursor: pointer; font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+/* =========================================
+   SUGESTII DE CĂUTARE (AUTOCOMPLETE)
+========================================= */
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 500px; /* Mutăm lățimea maximă aici */
+}
+
+/* Dacă .nav-search-form avea max-width: 500px, îl poți lăsa pe 100% acum */
+.nav-search-form {
+    max-width: 100%; 
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 110%; /* Apare fix sub bară */
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    list-style: none;
+    overflow: hidden;
+    z-index: 2000;
+    border: 1px solid #e9ecef;
+}
+
+.suggestions-list li {
+    padding: 12px 20px;
+    color: #2c3e50;
+    cursor: pointer;
+    border-bottom: 1px solid #f4f6f8;
+    transition: background 0.2s;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.suggestions-list li:last-child {
+    border-bottom: none;
+}
+
+.suggestions-list li:hover {
+    background: #f4f6f8;
+    color: #ff9f43; /* Se colorează frumos la trecerea mouse-ului */
+    font-weight: 600;
+}/* --- SUGESTII DE CĂUTARE --- */
+.search-wrapper { position: relative; width: 100%; max-width: 500px; }
+.nav-search-form { max-width: 100%; }
+.suggestions-list {
+    position: absolute; top: 110%; left: 0; right: 0;
+    background: white; border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    list-style: none; overflow: hidden; z-index: 2000;
+    border: 1px solid #e9ecef;
+}
+.suggestions-list li {
+    padding: 12px 20px; color: #2c3e50; cursor: pointer;
+    border-bottom: 1px solid #f4f6f8; transition: background 0.2s;
+    text-align: left; font-size: 0.95rem;
+}
+.suggestions-list li:hover { background: #f4f6f8; color: #ff9f43; font-weight: 600; }
+
+/* --- ECRAN HOME & METROPOLE --- */
+.nav-logo { cursor: pointer; transition: transform 0.2s ease; }
+.nav-logo:hover { transform: scale(1.05); }
+
+.home-dashboard {
+    width: 100%; max-width: 1200px; margin: 0 auto 30px auto;
+    animation: fadeIn 0.6s ease-out;
+}
+.dashboard-title {
+    font-size: 1.6rem; color: #1e272e; margin-bottom: 20px; font-weight: 700;
+}
+.world-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;
+}
+.world-card {
+    background: white; border-radius: 20px; padding: 25px 15px;
+    text-align: center; cursor: pointer; transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #f4f6f8;
+}
+.world-card:hover {
+    transform: translateY(-8px); box-shadow: 0 12px 25px rgba(0,0,0,0.08); border-color: #ff9f43;
+}
+.world-city { font-size: 1.3rem; font-weight: 700; color: #1e272e; }
+.world-temp { font-size: 2.5rem; font-weight: 300; color: #ff9f43; margin: 15px 0; line-height: 1; }

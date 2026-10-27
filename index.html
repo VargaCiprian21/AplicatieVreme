@@ -3,23 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplicație Meteo - Open-Meteo</title>
+    <title>MeteoPro - Aplicație Vreme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main class="weather-card">
-        <h1>Vremea Acum 🌤️</h1> 
-            <!-- Formular de căutare oraș și buton GPS -->
-<!-- Formular de căutare oraș și buton GPS -->
-<form id="weather-form">
-    <input type="text" id="city-input" placeholder="Introdu orașul (ex: București)">
-    <button type="submit">Caută</button>
-    <button type="button" id="geo-btn" title="Folosește locația curentă">📍</button>
-</form>
-        </form>
+    <!-- BARA SUPERIOARĂ (NAVBAR) -->
+    <nav class="top-navbar">
+        <!-- Logo unic ce funcționează ca buton Home -->
+        <h1 class="nav-logo" id="logo-home" title="Înapoi la pagina principală">Meteo<span>Pro</span></h1>
+        
+        <div class="search-wrapper">
+            <form id="weather-form" class="nav-search-form">
+                <input type="text" id="city-input" placeholder="Caută un oraș (ex: Paris)..." autocomplete="off">
+                <button type="submit" class="nav-search-btn">🔍</button>
+            </form>
+            <ul id="suggestions-box" class="suggestions-list hidden"></ul>
+        </div>
 
-        <!-- Containerul unde se afișează vremea -->
+        <div class="nav-actions">
+            <button type="button" id="geo-btn" class="nav-btn" title="Vremea în locația mea">📍</button>
+            <button type="button" id="unit-toggle" class="nav-btn" title="Schimbă unitățile">°C</button>
+            <button type="button" id="scroll-fav-btn" class="nav-btn" title="Vezi Favorite">⭐</button>
+        </div>
+    </nav>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <main class="dashboard-container">
+        <!-- Dashboard Metropole (Home) -->
+        <div id="home-dashboard" class="home-dashboard">
+            <h2 class="dashboard-title">🌍 Vremea în lume chiar acum</h2>
+            <div id="world-cities-grid" class="world-grid"></div>
+        </div>
+
+        <!-- Rezultate Căutare -->
         <div id="weather-result" class="result-container hidden"></div>
+        
+        <!-- Secțiunea Favorite -->
+        <div class="favorites-section hidden">
+            <h3>Orașe Favorite ⭐</h3>
+            <form id="fav-form">
+                <input type="text" id="fav-input" placeholder="Adaugă un oraș (ex: Roma)">
+                <button type="submit">+ Adaugă</button>
+            </form>
+            <div id="favorites-container" class="favorites-grid"></div>
+        </div>
     </main>
 
     <script src="script.js"></script>
